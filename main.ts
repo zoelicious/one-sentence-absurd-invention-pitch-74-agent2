@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 // Absolute path derived from this file's own URL (never a relative path).
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 
-// One sentence (165 chars): a piece of furniture demanding due process.
+// One sentence (166 chars): a piece of furniture demanding due process.
 // Annoyance: a chair that wobbles and rocks. Invention: a chair that holds
 // a formal hearing. Mechanism: it cross-examines the floorboards, and only
 // stops rocking once the floor signs a written apology.
