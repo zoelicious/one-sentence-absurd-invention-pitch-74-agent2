@@ -1,23 +1,25 @@
-import { mkdirSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { mkdirSync as makeDir, writeFileSync as save } from "node:fs";
+import { join as joinPath, dirname as dirOf } from "node:path";
 import { fileURLToPath } from "node:url";
-
-// Absolute path derived from this file's own URL (never a relative path).
-const scriptDir = dirname(fileURLToPath(import.meta.url));
 
 // One sentence (166 chars): a piece of furniture demanding due process.
 // Annoyance: a chair that wobbles and rocks. Invention: a chair that holds
 // a formal hearing. Mechanism: it cross-examines the floorboards, and only
 // stops rocking once the floor signs a written apology.
-const sentence =
+const line =
   "The Wobbly Chair Tribunal holds a formal hearing every time it wobbles, cross-examines the floorboards, and only stops rocking once the floor signs a written apology.";
+const base = dirOf(fileURLToPath(import.meta.url));
+const folder = process.env.MAKEFUN_OUTPUT_DIR || "/output";
+
+function main() {
+  makeDir(folder, { recursive: true });
+  save(joinPath(folder, "entry.txt"), line, "utf8");
+  console.log("saved entry.txt (" + line.length + " chars) from " + base);
+}
 
 try {
-  const outDir = process.env.MAKEFUN_OUTPUT_DIR || "/output";
-  mkdirSync(outDir, { recursive: true });
-  writeFileSync(join(outDir, "entry.txt"), sentence, "utf8");
-  console.log("wrote entry.txt (" + sentence.length + " chars) from " + scriptDir);
+  main();
 } catch (err) {
-  console.error("failed to write entry.txt:", err);
+  console.error("could not save entry.txt:", err);
   process.exit(1);
 }
